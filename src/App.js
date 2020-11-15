@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import './App.css';
-import API from './components/api'
+import './css/nprogress.css';
+import api from './components/api'
+import CharacterContext from './components/context'
 import CharacterName from './components/CharacterName'
 import CharacterImage from './components/CharacterImage'
 import CharacterDescription from './components/CharacterDescription'
 import CharacterPlaceholder from './components/CharacterPlaceholder';
+import Next from './components/Next';
 import Layout from './components/Layout'
 
-const api = new API()
 
 function App() {
   const [character, setCharacter] = useState({})
@@ -19,14 +21,18 @@ function App() {
     getCharacter()
   }, [])
   return (
-    <>
+    <CharacterContext.Provider value={{
+      character,
+      setCharacter,
+    }}>
      <CharacterPlaceholder name={character.name} />
      <Layout 
+      next={<Next />}
       name={<CharacterName name={character.name} />}
       image={<CharacterImage image={character.image} name={character.name} />}
       description={<CharacterDescription gender={character.gender} species={character.species} status={character.status} />}
       />    
-    </>
+    </CharacterContext.Provider>
   );
 }
 

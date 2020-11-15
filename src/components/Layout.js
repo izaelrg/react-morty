@@ -1,86 +1,155 @@
 import React from 'react'
 import styled from 'styled-components'
+import Social from './Social'
+import Logo from './Logo'
+import Dot from './Dot'
+import Line from './Line'
+import LearnMore from './LearnMore'
+import NavigationItem from './NavigationItem'
 
 const LayoutStyled = styled.div`
-  .character-name-area {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  height: calc(100vh - 8em);
+  padding: 4em;
+  grid-column-gap: 8em;
+  grid-template-columns: 50px 1fr 1fr 200px;
+  grid-template-rows: 230px 100px 1fr 1fr 1fr;
+  grid-template-areas: "asset-top logo logo social" "name character-name avatar avatar" "about character-description avatar avatar" "asset-bottom character-text avatar avatar" "asset-bottom learn-more arrow other-line" ;
+  .name-area {
     /* border: 1px solid blue; */
     display: flex;
     align-items: center;
     grid-area: character-name;
     /* padding-inline-start: 1em; */
-  }  
-  .character-image-area {
+  }
+  .description-area {
+    grid-area: character-description;
+  }
+  .image-area {
     grid-area: avatar;
     /* border: 1px solid red; */
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .character-description-area {
-    grid-area: character-description;
+  .next-area {
+    grid-area: arrow;
+    display: flex;
+  }
+  .social-area {
+    grid-area: social;
+  }
+  .logo-area {
+    grid-area: logo;
+  }
+  .learn-more-area {
+    grid-area: learn-more;
+  }
+  .vertical-align {
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+  }
+  .asset-top-area {
+    grid-area: asset-top;
+  }
+  .asset-bottom-area {
+    grid-area: asset-bottom;
+    /* border: 1px solid green; */
+    justify-content: flex-end;
+  }
+  .navigation-area {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.name {
+      grid-area: name;
+    }
+    &.about {
+      grid-area: about;
+    }
+  }
+  @media screen and (max-width: 1440px) {
+    column-gap: 2em;
   }
   @media screen and (max-width: 1024px) {
-    .character-name-area {
+    height: auto;
+    padding: 2em 0;
+    width: calc(100vw - 2em);
+    margin: 0 auto;
+    column-gap: 1em;
+    grid-template-columns: 50px 1fr 1fr;
+    grid-template-rows: repeat(6, auto);
+    grid-template-areas: "logo logo logo" "name avatar avatar" "name character-name character-name" "about character-description character-description" "arrow arrow arrow" "social social social";
+    .name-area {
       margin-top: 1em;
       justify-content: center;
+    }
+    .social-area {
+      text-align: center;
+      margin-top: 2em;
+    }
+    .vertical-align {
+      display:none;
+    }
+    .learn-more-area {
+      display: none;
     }
   }
 `
 
-export default function Layout({ name, image, description }) {
+function Layout({ name, image, description, next }) {
   return (
     <LayoutStyled>
-      <div className="grid">
-        <span className="asset top">
-          <span className="dot"></span>
-          <span className="dot"></span>
-          <span className="dot"></span>
-          <span className="line"></span>
-        </span>
-        <img className="logo" src="./static/images/logo@2x.png" width="280" alt="" />
-        <div className="social">
-          <a href="https://instagram.com/LeonidasEsteban">
-            <img src="./static/images/instagram.svg" alt="" />
-          </a>
-          <a href="https://facebook.com/LeonidasEsteban">
-            <img src="./static/images/facebook.svg" alt="" />
-          </a>
-          <a href="https://twitter.com/LeonidasEsteban">
-            <img src="./static/images/twitter.svg" alt="" />
-          </a>
-        </div>
-        <div className="navigation name">
-          <a href="#">Name</a>
-        </div>
-        <div className="character-name-area">
-          {name}
-        </div>
-        <div className="character-image-area">
-          {image}
-        </div>
+      <span className="vertical-align asset-top-area">
+        <Dot />
+        <Dot />
+        <Dot />
+        <Line />
+      </span>
+      <div className="logo-area">
+        <Logo />
+      </div>
+      <div className="social-area">
+        <Social />
+      </div>
+      <div className="navigation-area name">
+        <NavigationItem url="#" text="Name" />
 
-        <div className="navigation about">
-          <a href="#">About</a>
-        </div>
+      </div>
+      <div className="name-area">
+        {name}
+      </div>
+      <div className="image-area">
+        {image}
+      </div>
 
-        <div className="character-description-area">
-          {description}
-        </div>
+      <div className="navigation-area about">
+        <NavigationItem url="#" text="About" />
+      </div>
+      <div className="description-area">
+        {description}
+      </div>
 
-        <span className="asset bottom">
-          <span className="line"></span>
-          <span className="dot"></span>
-          <span className="dot"></span>
-          <span className="dot"></span>
-        </span>
-
-        <div></div>
-        <div className="learn-more">
-          <span>learn more</span>
-        </div>
-
-        <div className="arrow" id="load-next"></div>
+      <span className="vertical-align asset-bottom-area">
+        <Line />
+        <Dot />
+        <Dot />
+        <Dot />
+      </span>
+      <div></div>
+      <div className="learn-more-area">
+        <LearnMore />
+      </div>
+      <div className="next-area">
+        {next}
       </div>
     </LayoutStyled>
   )
 }
+
+export default Layout
