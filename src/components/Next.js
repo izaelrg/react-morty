@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import CharacterContext from './context'
-import api from './api'
 import NProgress from 'nprogress'
+import { useHistory } from 'react-router-dom'
 
 
 const NextStyled=styled.div`
@@ -20,13 +20,13 @@ const NextStyled=styled.div`
 
 export default function Next() {
   const context = useContext(CharacterContext)
-  
+  const history = useHistory()
   async function handleClick() {
     NProgress.start()
-    context.setCharacter(await api.getCharacter(context.character.id + 1))
+    history.push(`/${context.character.id + 1}`)
+    // context.setCharacter(await api.getCharacter(context.character.id + 1))
     NProgress.done()
   }
-
   return (
     <NextStyled onClick={handleClick} />
 
